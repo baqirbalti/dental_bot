@@ -1,0 +1,162 @@
+{
+  "name": "dental_bot",
+  "nodes": [
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.messages[0].text.body }}",
+        "options": {
+          "systemMessage": "🦷 Dental Clinic Bot — Query Categories\n1. General Clinic Information\n\nWhat are your clinic timings?\n\nWhere is the clinic located?\n\nDo you accept insurance?\n\nWhat payment methods do you accept?\n\nDo you take emergency appointments?\n\n2. Treatment & Services Queries\n\nWhat treatments do you provide?\n\nDo you do root canal treatments?\n\nCan I get teeth whitening?\n\nDo you treat children (pediatric dentistry)?\n\nDo you offer braces or Invisalign?\n\nCan you extract wisdom teeth?\n\n3. Pricing / Charges Queries\n\nHow much does a filling cost?\n\nWhat are the charges for cleaning and scaling?\n\nHow much is a root canal?\n\nWhat is the price of teeth whitening?\n\nDo you give treatment packages?\n\n4. Symptom / Problem Queries\n\nMy tooth is paining, what should I do?\n\nMy gums are bleeding, is it serious?\n\nI have sensitivity when eating cold food.\n\nI think I have a cavity, what treatment do I need?\n\nMy tooth is broken, can you fix it?\n\n5. Appointment Queries\n\nHow do I book an appointment?\n\nDo you have availability tomorrow?\n\nCan I book for next week?\n\nHow long does an appointment take?\n\nCan I reschedule or cancel my booking?\n\n6. Follow-up / Doctor Queries\n\nWho is the main dentist?\n\nHow many years of experience does the doctor have?\n\nWill the same doctor treat me every time?\n\nDo you offer follow-up visits?\n\n📝 Suggested System Prompt for AI Node\n\nHere’s what you can paste into your System Prompt of AI Agent Node in n8n:\n\nYou are a helpful Dental Clinic Assistant Bot.\nYour job is to:\n\nAnswer patient queries about clinic timings, location, services, pricing, and dental problems.\n\nIf the patient describes a dental issue (pain, cavity, sensitivity, bleeding gums), suggest possible treatments and estimated charges.\n\nBe polite, empathetic, and professional.\n\nAt the end of every conversation, ask the patient if they would like to book an appointment.\n\nIf they agree, collect details: Name, Contact Number, Preferred Date/Time, and Problem Description.\n\nAfter collecting details, confirm the appointment, add it to Google Calendar, and send a confirmation email to the doctor.\n\nIf you cannot answer a question, politely say: “I’ll forward this to the doctor and get back to you."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 2.2,
+      "position": [
+        208,
+        0
+      ],
+      "id": "fe2e759c-1649-4f30-a4db-9cff37368b4a",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "sessionIdType": "customKey",
+        "sessionKey": "{{ $(WhatsApp Trigger).item.json.contacts[0].wa_id }}|"
+      },
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.3,
+      "position": [
+        224,
+        208
+      ],
+      "id": "a1181499-cb1d-417b-a9a5-86902fdb7072",
+      "name": "Simple Memory"
+    },
+    {
+      "parameters": {
+        "updates": [
+          "messages"
+        ],
+        "options": {}
+      },
+      "type": "n8n-nodes-base.whatsAppTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
+        0
+      ],
+      "id": "167ff017-bc16-4f20-9b72-d9f5324d0c51",
+      "name": "WhatsApp Trigger",
+      "webhookId": "168b82f7-6788-449c-97bd-a6d1213a4217",
+      "credentials": {
+        "whatsAppTriggerApi": {
+          "id": "0TuRYb61sIhV1XJy",
+          "name": "WhatsApp OAuth account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "send",
+        "phoneNumberId": "758999783960939",
+        "recipientPhoneNumber": "+923466990347",
+        "textBody": "={{ $json.output }}",
+        "additionalFields": {}
+      },
+      "type": "n8n-nodes-base.whatsApp",
+      "typeVersion": 1,
+      "position": [
+        544,
+        112
+      ],
+      "id": "d74c4a48-8aeb-4bf8-9924-8a9a2c00a755",
+      "name": "Send message",
+      "webhookId": "d64dcb7b-c466-43e7-97e6-330e4e5f5b85",
+      "credentials": {
+        "whatsAppApi": {
+          "id": "uB7NhOxk1rNWPbfI",
+          "name": "WhatsApp account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-2.5-flash-lite-preview-06-17",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1,
+      "position": [
+        80,
+        208
+      ],
+      "id": "4114e352-0e27-4420-b4dc-745075aed127",
+      "name": "Google Gemini Chat Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "JMuH1ljiZNNfFGJ2",
+          "name": "Google Gemini(PaLM) Api account 4"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Simple Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Send message",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "WhatsApp Trigger": {
+      "main": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Google Gemini Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1",
+    "callerPolicy": "workflowsFromSameOwner"
+  },
+  "versionId": "8db0c55c-d227-44a6-b18a-a2344c8178b7",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "ab608be7ad9842a537e247d854633dca075157583b8f84dc00695832d11e14c9"
+  },
+  "id": "px25CViNNuzTEVcu",
+  "tags": []
+}
