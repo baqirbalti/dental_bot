@@ -1,4 +1,4 @@
-🦷 Dental_Bot – AI-powered WhatsApp Chatbot for Dental Clinics
+🦷 Dental_Bot – AI-powered WhatsApp Chatbot for Dental Clinics//
 📌 Overview
 
 Dental_Bot is an AI-powered WhatsApp chatbot built with n8n that helps dental clinics automate patient interaction.
