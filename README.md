@@ -15,6 +15,8 @@ Provide intelligent responses using Google Gemini AI 🤖
 
 This system reduces manual workload for clinic staff and improves patient engagement by offering a seamless, automated booking flow.
 
+![Workflow Screenshot](https://github.com/your-username/your-repo-name/blob/main/workflow_screenshot.png?raw=true)
+
 ⚙️ Features
 
 ✅ WhatsApp Integration – Patients can chat directly with the clinic via WhatsApp.
