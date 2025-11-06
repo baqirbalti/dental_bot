@@ -9,7 +9,7 @@ Answer patient queries about dental problems, treatments, and charges 💬
 
 Collect patient details and guide them through booking 🗓️
 
-Store appointment data securely in an SQL database 📂
+Store appointment data securely in an Google Sheet.
 
 Provide intelligent responses using Google Gemini AI 🤖
 
@@ -20,7 +20,7 @@ This system reduces manual workload for clinic staff and improves patient engage
 ✅ WhatsApp Integration – Patients can chat directly with the clinic via WhatsApp.
 ✅ AI-Powered Queries – Uses Google Gemini to answer common dental questions (treatments, charges, timings).
 ✅ Booking Flow – Patients can finalize an appointment directly in chat.
-✅ Database Storage – Appointment & patient details are stored in an SQL database for record-keeping.
+✅ Data Storage – Appointment & patient details are stored in an Google Sheet for record-keeping.
 ✅ AI Agent Node – Handles natural conversation flow and ensures smooth query → booking transition.
 
 🛠️ Tech Stack
@@ -31,7 +31,7 @@ WhatsApp Business API (patient communication)
 
 Google Gemini AI (smart query handling)
 
-SQL Database (patient records & bookings)
+Google Sheet (patient records & bookings)
 
 🚀 Workflow
 
@@ -53,6 +53,4 @@ WhatsApp Send Message confirms the booking to the patient.
 
 🗓️ Google Calendar Integration – To sync bookings with the dentist’s schedule.
 
-📊 Google Sheets – For maintaining appointment logs.
-
-📞 AI Voice Caller – Automated call confirmations.
+📞 AI Voice Caller – Automated call confirmations using vapi.
